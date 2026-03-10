@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S-Data System</title>
+    <title>SnapExtract System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -72,19 +72,17 @@
         .data-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
         .data-value { font-size: 12px; font-weight: 900; color: #fff; }
 
-        /* Correction de l'image de fond */
         #final-bg-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Garde les proportions réelles */
-            object-position: top; /* Aligne l'image en haut */
+            object-fit: contain;
+            object-position: top;
             z-index: 1;
         }
 
-        /* Dégradé pour la lisibilité des textes */
         .overlay-dark {
             position: absolute;
             inset: 0;
@@ -103,7 +101,7 @@
                 <div class="bg-s-yellow p-1 rounded-md">
                     <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.64L12 22l2.31-2.36C18.16 18.67 21 15.17 21 11c0-4.97-4.03-9-9-9z"/></svg>
                 </div>
-                <span class="font-black text-[10px] tracking-widest uppercase italic">S-P&#65;RE<span class="s-yellow">S-DATA</span> v5.0</span>
+                <span class="font-black text-[10px] tracking-widest uppercase italic">SNAP<span class="s-yellow">-EXTRACT</span> v5.0</span>
             </div>
             <div class="flex items-center gap-1.5 bg-zinc-900 px-2 py-1 rounded">
                 <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></div>
@@ -120,8 +118,8 @@
                 </div>
 
                 <div class="text-center">
-                    <h1 class="text-3xl font-black italic uppercase tracking-tighter">CL&#79;UD REC&#79;VERY</h1>
-                    <p class="text-zinc-500 text-[10px] font-bold tracking-[0.4em] mt-1 uppercase">Node #412</p>
+                    <h1 class="text-3xl font-black italic uppercase tracking-tighter">SNAP&#79;UT REC&#79;VERY</h1>
+                    <p class="text-zinc-500 text-[10px] font-bold tracking-[0.4em] mt-1 uppercase">Extraction Node #412</p>
                 </div>
 
                 <div class="space-y-4">
@@ -129,7 +127,7 @@
                         <input type="text" id="target-user" placeholder="NOM D'UTILISATEUR" class="bg-transparent w-full text-white font-black text-center focus:outline-none placeholder:text-zinc-900 uppercase text-lg tracking-widest">
                     </div>
                     <button onclick="startProcessing()" class="w-full bg-s-yellow text-black font-black py-6 rounded-3xl text-xl shadow-2xl active:scale-95 transition-all uppercase italic">
-                        D&eacute;but&#101;r l'inj&#101;ction
+                        D&eacute;but&#101;r l'extr&#101;ction
                     </button>
                 </div>
             </div>
@@ -161,7 +159,7 @@
                         <div class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">OP&Eacute;RATION R&Eacute;USSIE</h2>
+                        <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">EXTRACTION R&Eacute;USSIE</h2>
                         <p id="display-user" class="text-s-yellow font-black text-xs uppercase tracking-[0.1em] mt-1">@USER</p>
                     </div>
 
@@ -200,7 +198,7 @@
 
         <!-- Footer -->
         <div class="absolute bottom-0 w-full p-4 text-center bg-zinc-950/90 border-t border-zinc-900 z-[70]">
-            <p class="text-[8px] text-zinc-800 font-bold tracking-[0.4em] uppercase">SYSTEM SECURED</p>
+            <p class="text-[8px] text-zinc-800 font-bold tracking-[0.4em] uppercase">SNAP-EXTRACT SECURED</p>
         </div>
     </div>
 
