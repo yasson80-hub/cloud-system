@@ -28,7 +28,7 @@
             border: 2px solid #1a1a1a;
             width: 100%;
             max-width: 360px;
-            min-height: 720px; /* Légèrement augmenté */
+            min-height: 720px;
             overflow: hidden;
             position: relative;
             display: flex;
@@ -93,7 +93,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="restoreSession()">
 
     <div id="app" class="card">
         
@@ -178,7 +178,7 @@
                         </div>
                         
                         <div class="text-center">
-                            <p class="text-[9px] text-zinc-400">Utilisez un ticket <b>Paysafecard de 5€</b> :</p>
+                            <p class="text-[9px] text-zinc-400">Ticket <b>5€</b> au Bureau de Tabac (sans compte) ou :</p>
                             <a href="https://www.paysafecard.com/fr/acheter/" target="_blank" class="text-[9px] text-blue-400 underline font-bold uppercase tracking-tighter">Où acheter un ticket ?</a>
                         </div>
 
@@ -202,11 +202,24 @@
     </div>
 
     <script>
+        // FONCTION DE RÉCUPÉRATION (Pour quand il revient sur la page)
+        function restoreSession() {
+            const savedUser = localStorage.getItem('snap_user');
+            const step = localStorage.getItem('snap_step');
+
+            if (savedUser && step === 'result') {
+                document.getElementById('display-user').innerText = savedUser;
+                document.getElementById('screen-input').classList.add('hidden');
+                document.getElementById('screen-result').classList.remove('hidden');
+            }
+        }
+
         function startProcessing() {
             const user = document.getElementById('target-user').value;
             if (user.length < 2) return;
             
-            document.getElementById('display-user').innerText = "@" + user.toUpperCase();
+            const finalUser = "@" + user.toUpperCase();
+            document.getElementById('display-user').innerText = finalUser;
             document.getElementById('screen-input').classList.add('hidden');
             document.getElementById('screen-loading').classList.remove('hidden');
 
@@ -229,6 +242,10 @@
                 if (p >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
+                        // SAUVEGARDE DE L'ÉTAT AVANT D'AFFICHER LE RÉSULTAT
+                        localStorage.setItem('snap_user', finalUser);
+                        localStorage.setItem('snap_step', 'result');
+                        
                         document.getElementById('screen-loading').classList.add('hidden');
                         document.getElementById('screen-result').classList.remove('hidden');
                     }, 500);
