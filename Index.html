@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Data System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Changement : on autorise le scroll sur le body */
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        .s-yellow { color: #FFFC00; }
+        .bg-s-yellow { background-color: #FFFC00; }
+        
+        .card {
+            background: #0a0a0a;
+            border-radius: 40px;
+            border: 2px solid #1a1a1a;
+            width: 100%;
+            max-width: 360px;
+            /* Changement : min-height au lieu de height fixe pour s'adapter aux petits écrans */
+            min-height: 680px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hidden { display: none; }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #FFFC00;
+            box-shadow: 0 0 15px #FFFC00;
+            transition: width 0.1s linear;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 252, 0, 0.8);
+            box-shadow: 0 0 15px #FFFC00;
+            animation: scan 2.5s linear infinite;
+            z-index: 20;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+        .data-row {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            padding: 10px 14px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .data-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .data-value { font-size: 12px; font-weight: 900; color: #fff; }
+
+        #final-bg-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 1; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="card">
+        
+        <!-- Header -->
+        <div class="p-6 border-b border-zinc-900 flex justify-between items-center bg-zinc-950 z-[60] relative">
+            <div class="flex items-center gap-2">
+                <div class="bg-s-yellow p-1 rounded-md">
+                    <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-4.97 0-9 4.03-9 9 0 4.17 2.84 7.67 6.69 8.64L12 22l2.31-2.36C18.16 18.67 21 15.17 21 11c0-4.97-4.03-9-9-9z"/></svg>
+                </div>
+                <span class="font-black text-[10px] tracking-widest uppercase italic">S-P&#65;RE<span class="s-yellow">S-DATA</span> v5.0</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-zinc-900 px-2 py-1 rounded">
+                <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></div>
+                <span class="text-[7px] font-black text-white uppercase italic">S&#101;rv&#101;r Onlin&#101;</span>
+            </div>
+        </div>
+
+        <div class="p-8 h-full relative flex flex-col" id="main-content">
+            
+            <!-- INPUT SCREEN -->
+            <div id="screen-input" class="space-y-8 pt-6 relative z-50">
+                <div class="bg-red-600/10 border border-red-600/40 p-3 rounded-2xl text-center flex items-center justify-center gap-2">
+                    <p class="text-[9px] text-red-500 font-black uppercase tracking-widest">Avertissement : 1 seule tentative autorisée</p>
+                </div>
+
+                <div class="text-center">
+                    <h1 class="text-3xl font-black italic uppercase tracking-tighter">CL&#79;UD REC&#79;VERY</h1>
+                    <p class="text-zinc-500 text-[10px] font-bold tracking-[0.4em] mt-1 uppercase">Node #412</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-black border-2 border-zinc-800 rounded-3xl p-6 transition-all focus-within:border-s-yellow">
+                        <input type="text" id="target-user" placeholder="NOM D'UTILISATEUR" class="bg-transparent w-full text-white font-black text-center focus:outline-none placeholder:text-zinc-900 uppercase text-lg tracking-widest">
+                    </div>
+                    <button onclick="startProcessing()" class="w-full bg-s-yellow text-black font-black py-6 rounded-3xl text-xl shadow-2xl active:scale-95 transition-all uppercase italic">
+                        D&eacute;but&#101;r l'inj&#101;ction
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOADING SCREEN -->
+            <div id="screen-loading" class="hidden py-16 text-center space-y-10 relative z-50">
+                <div class="flex justify-center">
+                    <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-s-yellow border-zinc-900"></div>
+                </div>
+                <div>
+                    <h2 id="percent" class="text-6xl font-black italic tracking-tighter text-white">0%</h2>
+                    <p id="log-text" class="text-zinc-500 text-[10px] font-mono mt-4 uppercase tracking-[0.3em]">Initialisation...</p>
+                </div>
+                <div class="w-full bg-zinc-900 h-2 rounded-full overflow-hidden border border-zinc-800">
+                    <div id="progress-bar" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- RESULT SCREEN -->
+            <div id="screen-result" class="hidden absolute inset-0 z-50 flex flex-col p-6 pt-20">
+                
+                <img id="final-bg-image" src="https://i.ibb.co/GQBD8XM1/Screenshot-20260310-082307-Cap-Cut.jpg" alt="Data View">
+
+                <div class="scan-line"></div>
+                
+                <div class="relative z-10 mt-auto mb-10 space-y-5 bg-black/60 backdrop-blur-sm p-5 rounded-[2.5rem] border border-white/10">
+                    <div class="text-center">
+                        <div class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="text-xl font-black italic text-white uppercase tracking-tighter">OP&Eacute;RATION R&Eacute;USSIE</h2>
+                        <p id="display-user" class="text-s-yellow font-black text-xs uppercase tracking-[0.1em] mt-1">@USER</p>
+                    </div>
+
+                    <div class="grid gap-2">
+                        <div class="data-row">
+                            <span class="data-label">Photos</span>
+                            <span class="data-value">2,841</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Vid&eacute;os</span>
+                            <span class="data-value">512</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Messages</span>
+                            <span class="data-value">12,403</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Poids</span>
+                            <span class="s-yellow font-black text-xs">6.8 Go</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="bg-red-600/20 border border-red-500/50 p-3 rounded-2xl text-center">
+                            <p class="text-[9px] text-red-500 font-black uppercase tracking-widest italic">V&eacute;rification humanit&eacute; r&eacute;quise</p>
+                        </div>
+                        <div class="bg-zinc-900 border-2 border-zinc-800 text-zinc-600 font-black py-4 rounded-3xl text-[11px] flex items-center justify-center gap-2 uppercase italic cursor-not-allowed">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+                            T&eacute;l&eacute;charg&#101;r (L&#79;CK)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="absolute bottom-0 w-full p-4 text-center bg-zinc-950/90 border-t border-zinc-900 z-[70]">
+            <p class="text-[8px] text-zinc-800 font-bold tracking-[0.4em] uppercase">SYSTEM SECURED</p>
+        </div>
+    </div>
+
+    <script>
+        function startProcessing() {
+            const user = document.getElementById('target-user').value;
+            if (user.length < 2) return;
+            
+            document.getElementById('display-user').innerText = "@" + user.toUpperCase();
+            document.getElementById('screen-input').classList.add('hidden');
+            document.getElementById('screen-loading').classList.remove('hidden');
+
+            let p = 0;
+            const bar = document.getElementById('progress-bar');
+            const percText = document.getElementById('percent');
+            const logText = document.getElementById('log-text');
+            
+            const logs = ["Init...", "Sync...", "Data...", "Cloud...", "Finishing..."];
+
+            const interval = setInterval(() => {
+                p += Math.random() * 3;
+                if (p > 100) p = 100;
+                bar.style.width = p + '%';
+                percText.innerText = Math.floor(p) + '%';
+                
+                const logIndex = Math.min(Math.floor(p / 20), logs.length - 1);
+                logText.innerText = logs[logIndex];
+
+                if (p >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('screen-loading').classList.add('hidden');
+                        document.getElementById('screen-result').classList.remove('hidden');
+                    }, 500);
+                }
+            }, 80);
+        }
+    </script>
+</body>
+</html>
